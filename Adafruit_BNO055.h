@@ -20,21 +20,26 @@
 #ifndef __ADAFRUIT_BNO055_H__
 #define __ADAFRUIT_BNO055_H__
 
-#if (ARDUINO >= 100)
- #include "Arduino.h"
-#else
- #include "WProgram.h"
+#ifdef ARDUINO
+  #if ARDUINO >= 100
+   #include "Arduino.h"
+  #else
+   #include "WProgram.h"
+  #endif
+
+  #ifdef __AVR_ATtiny85__
+   #include <TinyWireM.h>
+   #define Wire TinyWireM
+  #else
+   #include <Wire.h>
+  #endif
+#elif defined(SPARK)
+  #include "Particle.h"
 #endif
 
-#ifdef __AVR_ATtiny85__
- #include <TinyWireM.h>
- #define Wire TinyWireM
-#else
- #include <Wire.h>
-#endif
 
-#include <Adafruit_Sensor.h>
-#include <utility/imumaths.h>
+#include "Adafruit_Sensor.h"
+#include "imumaths.h"
 
 #define BNO055_ADDRESS_A (0x28)
 #define BNO055_ADDRESS_B (0x29)
